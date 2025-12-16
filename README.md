@@ -9,11 +9,16 @@ To use the library in your project, view the repo page on Maven: [MAVEN CENTRAL]
 or use in your android gradle:
 
 ```
-implementation 'com.moizhassan.ffmpeg:ffmpeg-kit-16kb:6.0.0' //build.gradle
+implementation 'com.moizhassan.ffmpeg:ffmpeg-kit-16kb:6.1.1' //build.gradle
 
 OR
 
-implementation("com.moizhassan.ffmpeg:ffmpeg-kit-16kb:6.0.0") //build.gradle.kts
+implementation("com.moizhassan.ffmpeg:ffmpeg-kit-16kb:6.1.1") //build.gradle.kts
+
+OR
+
+Download the `ffmpeg-kit-6.1.1.aar` from the repo directly
+
 ```
 
 ---

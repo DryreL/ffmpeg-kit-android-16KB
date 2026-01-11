@@ -43,9 +43,11 @@ jobs:
         run: ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --uninstall "cmake;3.10.2.4988404" "cmake;3.18.1"
       - name: set up android ndk r25 (16k support) lgpl
         run: |
-          curl -L -s "https://storage.googleapis.com/android-build/builds/aosp-ndk-release-r23-linux-linux/12186248/38c84da1ab0dd31ea40c857d2c9ee77450d9d71d76e60ac2ccd33d379babc534/android-ndk-12186248-linux-x86_64.zip?GoogleAccessId=gcs-sign%40android-builds-project.google.com.iam.gserviceaccount.com&Expires=1768133141&Signature=g855N%2B7W9jLF5OC0Dme0sOTimOahAew6%2FlKghuZ4EPekoX7BMDBkteLcuhhspbgiQyUD4wOjMNOTdYslcDATPbH2YIVCrzMU6tZ5zZ2gwLJGVHrf9CaLAbChe6oaCr5DssdA%2FnaB7b2OiNIUZzimjv8%2FTgC54nOFz4VphB7xJk%2BaYSEIcwy6nHM3FzFTf%2B6o3KSEmxocv%2BstcwLxSb7xjaA1yqI1t9F2mGdsaE9FlTwWS85mvJkV3jLiUCI5lMd2vaw6DNxS48jkY7KETxHwgiQL8IODbdqjkuHMav6m%2FmHJBBKdRgdQ5S19oHuF6mo7R9h7MYJFBjHJp75xRFkk2Q%3D%3D&response-content-disposition=attachment" -o ndk.zip
+          curl -L -s "https://storage.googleapis.com/android-build/builds/aosp-ndk-r25-release-linux-linux/12161346/ca7222ab71c8d5b8add70c147e6b14b8d05d64ea785766db4b1efe9f70eceba1/android-ndk-12161346-linux-x86_64.zip?GoogleAccessId=gcs-sign%40android-builds-project.google.com.iam.gserviceaccount.com&Expires=1768134026&Signature=K8Fk3c%2BwRA0mTsCqCRvwWrkQXN3yHK%2BRw4YL6349ruWaprKWCAFFnZMbmQLcdSxOJszHyb1lDlHTsO%2FGHlmQoSdr1oYExCwP5hbuBzQiBauAgWXpPRRqWlWH2kRxWYOQR74CUmwF%2Fo5t88RyJrVp0vYB3mKituMJ%2FrqSKefU4bBBe0lAjKetxvbnfmHWk%2FMztVsfPVWr9ZirqiJh6Uy%2FJmEXbDvjsGAThyKILT4BoY1ApDMNa%2FKNC2KS5bt%2FxeqJB%2BBHuCf8DbFTjOUQIYtWcV1N4JD7nf1eTifLzkYGd42FYM5dk5giSL%2FBCp9LmBk8lfKP6%2F%2B41mvCoNoEyEfmRg%3D%3D&response-content-disposition=attachment" -o ndk.zip
           unzip -q -o ndk.zip -d .ndk
           echo "ANDROID_NDK_ROOT=$PWD/.ndk/$(ls .ndk)" >> $GITHUB_ENV
+      - name: install autogen
+        run: sudo apt-get update && sudo apt-get install -y autogen
       - name: install meson and ninja
         run: |
           python3 -m pip install --user meson
@@ -90,9 +92,11 @@ jobs:
         run: ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --uninstall "cmake;3.10.2.4988404" "cmake;3.18.1"
       - name: set up android ndk r23 (16k support)
         run: |
-          curl -L -s "https://storage.googleapis.com/android-build/builds/aosp-ndk-release-r23-linux-linux/12186248/38c84da1ab0dd31ea40c857d2c9ee77450d9d71d76e60ac2ccd33d379babc534/android-ndk-12186248-linux-x86_64.zip?GoogleAccessId=gcs-sign%40android-builds-project.google.com.iam.gserviceaccount.com&Expires=1768132043&Signature=Hvt8PGUsPWPpBHqwjTneLRupb2FRrYH9hnSNxzNvw7rzYpg2mbVVLABgDiqTTzuKterC4LD816kEmj56ItXYhm88nzvZX16m%2FsoQdwwsOWk9EEuMyvH8IUz8%2B9sz9sr%2BIvD4s7eUxO6K3jcUdyb2brE5v5YzZXiEslDHu2Wzuy84MxxPy7u1MU595Payb3tU8eRGjGK78freQRWhPpa6WDAu5TTlq5roHtudCzmGLUD%2F98Ds5HCVwIcbLSNhZNYffiqDzx1ViVMcsfl%2BI%2BJFuHruHlfXegU4JmjWW3Seqt%2B4gathtfbE%2BiutBWZx9cpNjQovE3zcsmvqdJ8bOUKypQ%3D%3D&response-content-disposition=attachment" -o ndk.zip
+          curl -L -s "https://storage.googleapis.com/android-build/builds/aosp-ndk-release-r23-linux-linux/12186248/38c84da1ab0dd31ea40c857d2c9ee77450d9d71d76e60ac2ccd33d379babc534/android-ndk-12186248-linux-x86_64.zip?GoogleAccessId=gcs-sign%40android-builds-project.google.com.iam.gserviceaccount.com&Expires=1768134026&Signature=CmkLNqqhLv1AZ36GWnaJ2kQpBcNPQCNiY2uh7gPwDU27wpysX6X8z2O5OrcNRK5H5mmqE8KSiqNjkVQRiOJzeyq2541CNme1lphXYnciQ9jBcWQcoLGTQithaOKcHCkT0e2FKoVIrPH%2F5sD1xqzriHXxZR13Eq5W4Tw0D42lAk%2FW2G4jxJzkgb0GHLDWn5HxbH9Z8dET6M8No%2B4rYL3GSohD4avb0gWJGnS2RAOia6ny96LYtaYaU0pXM2yt%2FM7JVCv%2Fg%2BujlzR97yHfIWo1KaOl2Xh%2B%2FKudojpB3chd0PLFThWMgeO4n0wqgdluIgszhEoJuFSAKEhG3bQNv1MLBg%3D%3D&response-content-disposition=attachment" -o ndk.zip
           unzip -q -o ndk.zip -d .ndk
           echo "ANDROID_NDK_ROOT=$PWD/.ndk/$(ls .ndk)" >> $GITHUB_ENV
+      - name: install autogen
+        run: sudo apt-get update && sudo apt-get install -y autogen
       - name: install meson and ninja
         run: |
           python3 -m pip install --user meson

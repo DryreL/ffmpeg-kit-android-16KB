@@ -43,7 +43,7 @@ jobs:
         run: ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --uninstall "cmake;3.10.2.4988404" "cmake;3.18.1"
       - name: set up android ndk r25 (16k support) lgpl
         run: |
-          curl -L -s "https://ci.android.com/builds/submitted/12186248/linux/latest/android-ndk-12186248-linux-x86_64.zip" -o ndk.zip
+          curl -L -s "https://storage.googleapis.com/android-build/builds/aosp-ndk-release-r23-linux-linux/12186248/38c84da1ab0dd31ea40c857d2c9ee77450d9d71d76e60ac2ccd33d379babc534/android-ndk-12186248-linux-x86_64.zip?GoogleAccessId=gcs-sign%40android-builds-project.google.com.iam.gserviceaccount.com&Expires=1757434143&Signature=oK1FSeU9JpfoBkEqBZk%2FVmTH%2B1JJ09Dlv%2BsXblxpBTBq1kBA%2B42UPzbBpb%2BNy%2BIliEoWd2lO9Xbc92Lmzl1CiDyFwtzsxYE11nwUNNVWsjLvc0K0SO1%2F8j4p8b8eo5Zq5gc%2Bq7SamsrgelSUDSJfcYkDNR%2BE%2FyRpJgvtOqra%2FmEjw85pDrFMXFjZrSikYGjy%2Fl4E8TJRr%2BKh1BBkTEY5Oxvx3ia53LEzKE9bKKpFmFjZ9iXp%2BHh5ZSFPYZPrTMAeROSHlKARwvW35Bqgr%2FIyKHkSLKOk5%2FcbDud5iQwjuIB0l3MQTtkYr2TeDRh2BNzM82Z8MOwUfoncAI6nfj2%2Few%3D%3D" -o ndk.zip
           unzip -q -o ndk.zip -d .ndk
           echo "ANDROID_NDK_ROOT=$PWD/.ndk/$(ls .ndk)" >> $GITHUB_ENV
       - name: run the build script
@@ -76,7 +76,7 @@ jobs:
         run: '[[ -f ./src/ffmpeg/ffbuild/config.log ]] && tail -50 ./src/ffmpeg/ffbuild/config.log'
 
   build-lts-on-linux:
-    name: android lts on linux (ndk-r25-16k) lgpl
+    name: android lts on linux (ndk-r23-16k) lgpl
     runs-on: ubuntu-22.04
     defaults:
       run:
@@ -90,9 +90,9 @@ jobs:
           java-version: '17'
       - name: prerequisites
         run: ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --uninstall "cmake;3.10.2.4988404" "cmake;3.18.1"
-      - name: set up android ndk r25 (16k support)
+      - name: set up android ndk r23 (16k support)
         run: |
-          curl -L -s "https://ci.android.com/builds/submitted/12161346/linux/latest/android-ndk-12161346-linux-x86_64.zip" -o ndk.zip
+          curl -L -s "https://storage.googleapis.com/android-build/builds/aosp-ndk-release-r23-linux-linux/12186248/38c84da1ab0dd31ea40c857d2c9ee77450d9d71d76e60ac2ccd33d379babc534/android-ndk-12186248-linux-x86_64.zip?GoogleAccessId=gcs-sign%40android-builds-project.google.com.iam.gserviceaccount.com&Expires=1768127904&Signature=eOueeCgj6cC1PvcsSGlwC9UIpR0hH6fzuuqYueO%2F6QbRiLIAOceJzyi3r651eXS83ugZsZ4ZN%2Bo9G3%2F1MM%2B2mGefO7Wb5BDmOVP4I2JqKJR8opExKDkIJhsbGTI5ICjd8%2BdaHlqL9cpc1Edl6NLOlC4cgleA%2FaUbd6ZuehWk0xYiEOdjvlEr2KVNz2wgNlbEEXJocv9aQxk5u4ndftLBt1QIVghdal5c3d9ed9L%2FxMkUlYhUhC24NyvQF%2F9VO5NaWEDAYqjI1fspKjPZXNzZW0n244buBZ98eYmozML2e5lfzbt5wB6Zh2RjMsZUGxGpyuiBO5UowrrpvxGxq%2FWu2Q%3D%3D&response-content-disposition=attachment" -o ndk.zip
           unzip -q -o ndk.zip -d .ndk
           echo "ANDROID_NDK_ROOT=$PWD/.ndk/$(ls .ndk)" >> $GITHUB_ENV
       - name: run the build script
@@ -111,11 +111,11 @@ jobs:
             echo "Error: ffmpeg-kit.aar not found in prebuilt directory."
             exit 1
           fi
-          mv "$AAR_PATH" "ffmpeg-kit-lts-ndk-r25-16k-lgpl.aar"
+          mv "$AAR_PATH" "ffmpeg-kit-lts-ndk-r23-16k-lgpl.aar"
       - uses: actions/upload-artifact@v4
         with:
           name: ffmpeg-kit-lts-aar
-          path: ffmpeg-kit-lts-ndk-r25-16k-lgpl.aar
+          path: ffmpeg-kit-lts-ndk-r23-16k-lgpl.aar
           if-no-files-found: error
       - name: print build logs
         if: ${{ always() }}

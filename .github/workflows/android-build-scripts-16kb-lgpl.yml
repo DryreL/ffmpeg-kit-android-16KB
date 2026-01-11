@@ -43,9 +43,14 @@ jobs:
         run: ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --uninstall "cmake;3.10.2.4988404" "cmake;3.18.1"
       - name: set up android ndk r25 (16k support) lgpl
         run: |
-          curl -L -s "https://storage.googleapis.com/android-build/builds/aosp-ndk-r25-release-linux-linux/12161346/ca7222ab71c8d5b8add70c147e6b14b8d05d64ea785766db4b1efe9f70eceba1/android-ndk-12161346-linux-x86_64.zip?GoogleAccessId=gcs-sign%40android-builds-project.google.com.iam.gserviceaccount.com&Expires=1768132044&Signature=ssywkVcYctLSgCRlbi9inE7zHZfN5iBoCtxXNTBA5F28AXndED6nqrdyG9ZV4uJ5gMndwwlgLzRwieYQEGkUJ%2BGxgH0B7HYPDCPIYxhlsUSJypIHiZ5rOUmXj34%2B6l0Oo%2B8AN%2BWEdZMQ48JvnkqDxI1SCv2W8p%2BQ57Jpa%2Fg%2FG4sxlc6sdcMQPujOOE0CwiLy5BXx4fEkxKvrXBpwFkfpSMErs%2FyOsGdeVBb5BN8uiHUmYMpGk2WfQO5wOZxSAO2vNOdmvkRnX%2FMbsj8FmTjlcDTzGScucOOqdJCWsD03426MUt34mFRTEyqFjKo2hEb2LYbSgX5OTmPxgEXjdRPHFA%3D%3D&response-content-disposition=attachment" -o ndk.zip
+          curl -L -s "https://storage.googleapis.com/android-build/builds/aosp-ndk-release-r23-linux-linux/12186248/38c84da1ab0dd31ea40c857d2c9ee77450d9d71d76e60ac2ccd33d379babc534/android-ndk-12186248-linux-x86_64.zip?GoogleAccessId=gcs-sign%40android-builds-project.google.com.iam.gserviceaccount.com&Expires=1768133141&Signature=g855N%2B7W9jLF5OC0Dme0sOTimOahAew6%2FlKghuZ4EPekoX7BMDBkteLcuhhspbgiQyUD4wOjMNOTdYslcDATPbH2YIVCrzMU6tZ5zZ2gwLJGVHrf9CaLAbChe6oaCr5DssdA%2FnaB7b2OiNIUZzimjv8%2FTgC54nOFz4VphB7xJk%2BaYSEIcwy6nHM3FzFTf%2B6o3KSEmxocv%2BstcwLxSb7xjaA1yqI1t9F2mGdsaE9FlTwWS85mvJkV3jLiUCI5lMd2vaw6DNxS48jkY7KETxHwgiQL8IODbdqjkuHMav6m%2FmHJBBKdRgdQ5S19oHuF6mo7R9h7MYJFBjHJp75xRFkk2Q%3D%3D&response-content-disposition=attachment" -o ndk.zip
           unzip -q -o ndk.zip -d .ndk
           echo "ANDROID_NDK_ROOT=$PWD/.ndk/$(ls .ndk)" >> $GITHUB_ENV
+      - name: install meson and ninja
+        run: |
+          python3 -m pip install --user meson
+          sudo apt-get update
+          sudo apt-get install -y ninja-build
       - name: run the build script
         run: ./android.sh -d --full --disable-arm-v7a 
       - name: prepare and upload main aar
@@ -88,6 +93,11 @@ jobs:
           curl -L -s "https://storage.googleapis.com/android-build/builds/aosp-ndk-release-r23-linux-linux/12186248/38c84da1ab0dd31ea40c857d2c9ee77450d9d71d76e60ac2ccd33d379babc534/android-ndk-12186248-linux-x86_64.zip?GoogleAccessId=gcs-sign%40android-builds-project.google.com.iam.gserviceaccount.com&Expires=1768132043&Signature=Hvt8PGUsPWPpBHqwjTneLRupb2FRrYH9hnSNxzNvw7rzYpg2mbVVLABgDiqTTzuKterC4LD816kEmj56ItXYhm88nzvZX16m%2FsoQdwwsOWk9EEuMyvH8IUz8%2B9sz9sr%2BIvD4s7eUxO6K3jcUdyb2brE5v5YzZXiEslDHu2Wzuy84MxxPy7u1MU595Payb3tU8eRGjGK78freQRWhPpa6WDAu5TTlq5roHtudCzmGLUD%2F98Ds5HCVwIcbLSNhZNYffiqDzx1ViVMcsfl%2BI%2BJFuHruHlfXegU4JmjWW3Seqt%2B4gathtfbE%2BiutBWZx9cpNjQovE3zcsmvqdJ8bOUKypQ%3D%3D&response-content-disposition=attachment" -o ndk.zip
           unzip -q -o ndk.zip -d .ndk
           echo "ANDROID_NDK_ROOT=$PWD/.ndk/$(ls .ndk)" >> $GITHUB_ENV
+      - name: install meson and ninja
+        run: |
+          python3 -m pip install --user meson
+          sudo apt-get update
+          sudo apt-get install -y ninja-build
       - name: run the build script
         run: ./android.sh -d --lts --full --disable-arm-v7a
       - name: prepare and upload lts aar

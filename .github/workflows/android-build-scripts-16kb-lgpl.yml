@@ -7,7 +7,7 @@ on:
       - development
       - main
     paths:
-      - '.github/workflows/android-build-scripts.yml'
+      - '.github/workflows/android-build-scripts-16kb-lgpl.yml'
       - 'android/**'
       - '!android/README.md'
       - 'scripts/**'
@@ -18,7 +18,7 @@ on:
       - development
       - main
     paths:
-      - '.github/workflows/android-build-scripts.yml'
+      - '.github/workflows/android-build-scripts-16kb-lgpl.yml'
       - 'android/**'
       - '!android/README.md'
       - 'scripts/**'
